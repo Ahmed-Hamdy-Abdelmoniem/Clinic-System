@@ -18,13 +18,17 @@
 #define BACKEND_INFORMATION_SEARCHBY_ID 	0		/*private flag*/
 #define BACKEND_INFORMATION_SEARCHBY_TIME 	1		/*private flag*/	
 #define BACKEND_WRONG_HANDLING				11 		/*private flag*/
-#define BACKEND_ZERO						0
+#define BACKEND_ZERO						0		/*private flag*/
+#define BACKEND_TEN                         10		/*private flag*/
+#define BACKEND_STRING_TERMINATOR           '\0'	/*private flag*/
+#define BACKEND_ZERO_ACII    				48		/*private flag*/
 static PATEINT_T2 * clinic__t2_PRINT;
 
-
+							
 static checks clininc_EnuGetNode(u8 Copy_u8voidGetListName,u32 Copy_u8ID,u8 Copy_u8SearchBy);/*private function*/
 static checks clininc_EnuEditNodeTimeNull(u8 copy_u8time);									/*private function*/
 static checks clininc_EnuCreateNode(void * Copy_PvoidGetNode,u8 Copy_u8voidGetListName);	/*private function*/	
 static checks clininc_EnuEditNodeInformation(PATEINT_T1 copy_u8id);							/*private function*/
-static checks clininc_EnuSearchNodeAddSlot(u32 copy_u32time,u32 copy_u32id);				/*private function*/ 
+static checks clininc_EnuSearchNodeAddSlot(u32 copy_u32time,u32 copy_u32id);				/*private function*/	
+static checks private_EnuGetDatatSringToInteger(u32 * copy_u32GetIntegerData);				/*private function*/
 #endif 

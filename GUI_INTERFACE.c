@@ -108,7 +108,7 @@ extern checks GUI_EnuGuiTask(void)						/*Gui public function for gui task*/
 		printf("*********************\n");
 		printf("user information page\n");
 		printf("your id is %d\n",GUI_EnuScan_g.id);
-		printf("your name is %s\n",GUI_EnuScan_g.name);
+		printf("your name issssss %s\n",GUI_EnuScan_g.name);
 		printf("your age is %d\n",GUI_EnuScan_g.age);
 		printf("your gender is %c\n",GUI_EnuScan_g.gender);
 		if(GUI_EnuScan_time_g.id == 0 )			

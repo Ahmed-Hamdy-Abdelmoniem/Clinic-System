@@ -1,12 +1,13 @@
 #ifndef TYPES_h
 #define TYPES_h
+#define TYPES_SIZE_STRING 10
 
 typedef unsigned long u32;
 typedef unsigned char u8;
 typedef struct node
 {
 	u32 id ; 
-	u8 name[10] ;
+	u8 name[TYPES_SIZE_STRING] ;
 	u32 age ; 
 	u8 gender ;
 	struct node * ptr_T1 ;

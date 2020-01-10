@@ -13,7 +13,7 @@ static PATEINT_T2 * clinic__t2_PRINT= NULL ;/*glopal  pinter variable for accesi
 extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 {
 	checks local_Enu_Status  = notok;/*intial task with notok*/
-	u32 local_u32_scan;/*;ocal variable to scan integer data*/
+	u32 local_u32_scan;/*;local variable to scan integer data*/
 	u32 local_u32_main_node;/*local variable to have the main node of the gui*/
 	static PATEINT_T1 local_EnuScan;/*local variable of type struct to information list*/
 	PATEINT_T2 local_EnuScan_time;/*local variable of type struct to time list*/
@@ -21,7 +21,7 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	if(Gui_u8Status == GUI_SYESTEM_MAIN_MENU)/*main menu backend*/
 	{
 		local_u32_main_node = GUI_SYESTEM_MAIN_MENU ;/*main node -> main menu*/
-		scanf("%d",&local_u32_scan);/*scan option from user*/	
+		private_EnuGetDatatSringToInteger(&local_u32_scan);	
 		if(local_u32_scan == BACKEND_ADMIN)/*admin mode*/
 		{
 			Gui_u8Status = GUI_ADMIN_ENTER_PASSWORD;/*switch to enter password page*/
@@ -47,7 +47,7 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	}
 	else if(Gui_u8Status == GUI_WRONG )/*wrong status BACKEND*/
 	{
-		scanf("%d",&local_u32_scan);/*scan options*/
+		private_EnuGetDatatSringToInteger(&local_u32_scan);
 		if(local_u32_scan == BACKEND_WRONG_HANDLING)/*check for continue in the sam path */
 		{
 			Gui_u8Status = Gui_u8StatusPrevious  ;
@@ -62,7 +62,7 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	else if(Gui_u8Status == GUI_ADMIN_ENTER_PASSWORD)/*backend of admin password page*/
 	{
 		local_u32_main_node = GUI_SYESTEM_MAIN_MENU ;/*main node main menu*/
-		scanf("%d",&local_u32_scan);/*scan password*/
+		private_EnuGetDatatSringToInteger(&local_u32_scan);	/*scan password*/
 		if(local_u32_scan == BACKEND_PASSWORD)/*password correct*/
 		{
 			local_Enu_Status  = ok;
@@ -88,7 +88,7 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	else if(Gui_u8Status == GUI_ADMIN_MAIN_MENU)/*admin main menu Backend*/
 	{
 		local_u32_main_node = GUI_ADMIN_MAIN_MENU ;/*main node admin main menu*/
-		scanf("%d",&local_u32_scan);/*scan option*/
+		private_EnuGetDatatSringToInteger(&local_u32_scan);/*scan option*/
 		if(local_u32_scan ==  BACKEND_ONE)/*add new customer option*/
 		{
 			Gui_u8Status = GUI_ADMIN_NEW_USER ;
@@ -109,14 +109,19 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 		{
 			Gui_u8Status = GUI_SYESTEM_MAIN_MENU  ;
 		}
+		else
+		{
+			Gui_u8StatusPrevious = Gui_u8Status ;
+			Gui_u8Status = GUI_WRONG ;	
+		}
 		local_Enu_Status  = ok;/*make the status ok*/
 	}
 	else if (Gui_u8Status == GUI_ADMIN_NEW_USER)/*add new user back end*/
 	{
-		scanf("%lu",&local_EnuScan.id);
-		scanf("%s",local_EnuScan.name);
-		scanf("%d",&local_EnuScan.age);
-		scanf(" %c",&local_EnuScan.gender);
+		private_EnuGetDatatSringToInteger(&local_EnuScan.id);
+		scanf(" %s",local_EnuScan.name);
+		private_EnuGetDatatSringToInteger(&local_EnuScan.age);
+		scanf("  %c",&local_EnuScan.gender);
 		if(clininc_EnuGetNode(BACKEND_INFORMATION_LIST,local_EnuScan.id,BACKEND_INFORMATION_SEARCHBY_ID)==ok)/*check id i ino data base or ont*/
 		{
 			Gui_u8StatusPrevious = Gui_u8Status ;
@@ -133,9 +138,9 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	
 	else if (Gui_u8Status == GUI_ADMIN_EDIT_USER)/*edit user backend*/
 	{
-		scanf("%d",&local_EnuScan.id);
+		private_EnuGetDatatSringToInteger(&local_EnuScan.id);
+		private_EnuGetDatatSringToInteger(&local_EnuScan.age);
 		scanf("%s",local_EnuScan.name);
-		scanf("%d",&local_EnuScan.age);
 		scanf(" %c",&local_EnuScan.gender);
 		if(clininc_EnuGetNode(BACKEND_INFORMATION_LIST,local_EnuScan.id,BACKEND_INFORMATION_SEARCHBY_ID)==ok)/*check that the id into data base or not*/
 		{
@@ -151,9 +156,8 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	}
 	else if(Gui_u8Status == GUI_ADMIN_NEW_SLOT)/*add new slot backend*/
 	{
-		scanf("%d",&local_EnuScan_time.id);
-		scanf("%d",&local_EnuScan_time.time);
-		
+		private_EnuGetDatatSringToInteger(&local_EnuScan_time.id);
+		private_EnuGetDatatSringToInteger(&local_EnuScan_time.time);
 		/*check that the id into informtion lit or not*/
 		if(clininc_EnuGetNode(BACKEND_INFORMATION_LIST,local_EnuScan_time.id,BACKEND_INFORMATION_SEARCHBY_ID)==ok)
 		{
@@ -189,7 +193,9 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	}
 	else if(Gui_u8Status == GUI_ADMIN_DELET_SLOT)/*delete time slot backend*/
 	{
-		scanf("%d",&local_EnuScan_time.time);/*scan number of slot*/
+		
+		private_EnuGetDatatSringToInteger(&local_EnuScan_time.time);/*scan number of slot*/
+		
 		if(local_EnuScan_time.time>BACKEND_FIVE)/*check if the number is out of time scope*/
 		{
 			Gui_u8StatusPrevious = Gui_u8Status ;
@@ -204,7 +210,7 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	}	
 	else if(Gui_u8Status == GUI_USER_ENTER_ID_check)/*user id check backend*/
 	{
-		scanf("%d",&local_EnuScan.id);/*scan the user id*/
+		private_EnuGetDatatSringToInteger(&local_EnuScan.id);/*scan the user id*/
 		if(clininc_EnuGetNode(BACKEND_INFORMATION_LIST,local_EnuScan.id,BACKEND_INFORMATION_SEARCHBY_ID)== ok)/*check id into data base*/
 		{
 			Gui_u8Status = GUI_USER_MAIN_MENU ;
@@ -218,8 +224,9 @@ extern checks Backend_EnuBackendTask(void)/*BACK END TASK*/
 	}
 	else if(Gui_u8Status == GUI_USER_MAIN_MENU )/*user main menu backend*/
 	{
-		local_u32_main_node = GUI_ADMIN_MAIN_MENU ;/*main node user main menu*/
-		scanf("%d",&local_u32_scan);/*scan user options*/
+		local_u32_main_node = GUI_USER_MAIN_MENU  ;/*main node user main menu*/
+		private_EnuGetDatatSringToInteger(&local_u32_scan);/*scan user options*/
+		
 		if(	local_u32_scan == BACKEND_ONE)/*print information mode*/
 		{
 			Gui_u8Status =  GUI_USER_PRINT_DATA ;
@@ -525,4 +532,29 @@ static checks clininc_EnuSearchNodeAddSlot(u32 copy_u32time,u32 copy_u32id)
 			local_move = local_move->ptr_T2;/*make ove pointer points to the next nude*/	
 	}
 	return local_clinicsStatus;
+}
+/*back end function to get the data with string format then convert it it to integer*/
+static checks private_EnuGetDatatSringToInteger(u32 * copy_Pu32GetIntegerData)
+{
+	
+	
+	checks local_clinicsStatus = ok ;
+	u8 local_u8Counter = BACKEND_ZERO  ;
+	u32 local_u32Step= BACKEND_ONE;
+	*copy_Pu32GetIntegerData = BACKEND_ZERO; 
+	u8 local_Au8GetInsertedData[BACKEDN_INPUT_SIZE];
+	scanf("%s",local_Au8GetInsertedData);
+	while(local_Au8GetInsertedData[local_u8Counter] != BACKEND_STRING_TERMINATOR)
+	{
+		local_u8Counter++;
+	}
+		
+	while(local_u8Counter>BACKEND_ZERO)
+	{
+		*copy_Pu32GetIntegerData += (local_Au8GetInsertedData[local_u8Counter-BACKEND_ONE]-BACKEND_ZERO_ACII) * local_u32Step ;
+		local_u32Step *= BACKEND_TEN;
+		local_u8Counter--;
+	}
+	return local_clinicsStatus ;
+
 }
